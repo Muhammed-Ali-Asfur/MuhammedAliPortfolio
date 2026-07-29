@@ -39,46 +39,61 @@
             title="Muhammed Ali"
           />
         </a>
-        <div class="contact-icons">
-          <a
-            href="mailto:aliasfur08@gmail.com"
-            title="Email"
-            aria-label="Send email"
-          >
-            <i class="fa-solid fa-envelope"></i>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/muhammed-ali-asfur/"
-            target="_blank"
-            title="LinkedIn"
-            aria-label="My LinkedIn profile"
-          >
-            <i class="fab fa-linkedin"></i>
-          </a>
-          <a
-            href="https://github.com/Muhammed-Ali-Asfur"
-            target="_blank"
-            title="GitHub"
-            aria-label="My GitHub profile"
-          >
-            <i class="fa-brands fa-github"></i>
-          </a>
+
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Menüyü aç/kapat"
+          aria-expanded="false"
+          aria-controls="navWrapper"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-wrapper" id="navWrapper">
+          <div class="contact-icons">
+            <a
+              href="mailto:aliasfur08@gmail.com"
+              title="Email"
+              aria-label="Send email"
+            >
+              <i class="fa-solid fa-envelope"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/muhammed-ali-asfur/"
+              target="_blank"
+              title="LinkedIn"
+              aria-label="My LinkedIn profile"
+            >
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a
+              href="https://github.com/Muhammed-Ali-Asfur"
+              target="_blank"
+              title="GitHub"
+              aria-label="My GitHub profile"
+            >
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#references">References</a></li>
+              <li>
+                <a href="MuahmmedAliCV.pdf" download="MuahmmedAliCV.pdf"
+                  >Download CV</a
+                >
+              </li>
+            </ul>
+          </nav>
         </div>
-        <nav>
-          <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#references">References</a></li>
-            <li>
-              <a href="MuahmmedAliCV.pdf" download="MuahmmedAliCV.pdf"
-                >Download CV</a
-              >
-            </li>
-          </ul>
-        </nav>
       </div>
     </header>
 
@@ -753,5 +768,37 @@
     </button>
 
     <script src="js/main.js"></script>
+    <script>
+      // Mobil hamburger menü
+      (function () {
+        var menuToggle = document.getElementById("menuToggle");
+        var navWrapper = document.getElementById("navWrapper");
+        if (!menuToggle || !navWrapper) return;
+
+        function closeMenu() {
+          navWrapper.classList.remove("active");
+          menuToggle.classList.remove("active");
+          menuToggle.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        }
+
+        menuToggle.addEventListener("click", function () {
+          var isOpen = navWrapper.classList.toggle("active");
+          menuToggle.classList.toggle("active", isOpen);
+          menuToggle.setAttribute("aria-expanded", String(isOpen));
+          document.body.style.overflow = isOpen ? "hidden" : "";
+        });
+
+        // Bir linke tıklayınca menüyü kapat
+        navWrapper.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        // Ekran genişletilirse (masaüstüne dönülürse) menüyü kapat
+        window.addEventListener("resize", function () {
+          if (window.innerWidth > 900) closeMenu();
+        });
+      })();
+    </script>
   </body>
 </html>
