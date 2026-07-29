@@ -245,10 +245,16 @@ header {
   left: 0;
   width: 100%;
   z-index: 1000;
+  transition: box-shadow var(--transition);
+}
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background-color: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  transition: box-shadow var(--transition);
 }
 header.scrolled {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -258,12 +264,21 @@ header .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  gap: 16px;
   padding-top: 4px;
   padding-bottom: 4px;
+  min-height: 72px;
 }
 header .logo img {
   height: 62px;
+}
+
+/* Masaüstünde iletişim ikonları + menü yan yana durur */
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 header nav ul {
@@ -336,23 +351,116 @@ header nav ul > li:last-child a:hover {
   background: #1d4ed8;
 }
 
+/* ============================
+   HAMBURGER BUTONU — sadece mobilde görünür
+   ============================ */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 1001;
+}
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+.menu-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 900px) {
   header .container {
-    flex-direction: column;
-    padding: 10px 0;
-    gap: 6px;
+    padding: 10px 20px;
   }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* nav-wrapper, hamburger'a basılınca açılan tam ekran panel olur */
+  .nav-wrapper {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: var(--bg);
+    padding: 24px 20px;
+    gap: 20px;
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+    overflow-y: auto;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      visibility 0.25s;
+  }
+
+  .nav-wrapper.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
   header .contact-icons {
+    order: 2;
+    justify-content: center;
+    margin-right: 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  header nav {
     order: 1;
   }
+
   header nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
   }
+
   header nav ul > li > a {
-    padding: 6px 12px;
     height: auto;
-    font-size: 0.82rem;
+    padding: 14px 8px;
+    font-size: 1rem;
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header nav ul > li > a::after {
+    display: none;
+  }
+
+  header nav ul > li:last-child a {
+    margin-top: 8px;
+    text-align: center;
+    justify-content: center;
+    border-bottom: none;
   }
 }
 
